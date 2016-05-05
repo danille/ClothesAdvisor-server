@@ -1,8 +1,9 @@
+import json
+import urllib.request as url_req
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import urllib.request as url_req
-import json
 
 
 # Create your views here.
