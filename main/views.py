@@ -2,15 +2,20 @@ import json
 import urllib.request as url_req
 
 from rest_framework import status
+from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from .models import Advice
+from .serializers import AdviceSerializer
 
 
 # Create your views here.
 @api_view(['GET', 'POST'])
 def get_advice(request):
-    if request.method == 'POST':
-        print('TEST')
+    key = request.query_params.get('key')
+    danil_key = 'danil_key'
+    if request.method == 'GET' and key != danil_key:
 
         # Retrieving data from User: fetching URL-query parameters
         sex = request.query_params.get('s')  # User's sex
@@ -21,8 +26,11 @@ def get_advice(request):
         day_index = int(request.query_params.get('d_ind'))  # Day required by User : 0 - today, 8 - week later
 
         # Retrieving weather forecast from OpenWeatherMap API for required day and
-        get_weather(req_lat, req_lon, day_index)
-        return Response(data=None, status=status.HTTP_200_OK)
+        weather = get_weather(req_lat, req_lon, day_index)
+        return Response({'sex': sex, 'weather': weather}, status=status.HTTP_200_OK)
+    else:
+        return Response({'key': 'value'}, status=status.HTTP_200_OK)
+
 
 
 def get_weather(lat, lon, day_index):
@@ -39,6 +47,9 @@ def get_weather(lat, lon, day_index):
         weather_conditions = weather['list'][day_index]['weather'][0]['id']  # Rain params in required day
         print(average_daily_temp)
         print(weather_conditions)
-        return average_daily_temp, weather_conditions
+        return {'temp': average_daily_temp, 'weather_id': weather_conditions}
 
 
+class test(viewsets.ModelViewSet):
+    queryset = Advice.objects.all().filter()
+    serializer_class = AdviceSerializer

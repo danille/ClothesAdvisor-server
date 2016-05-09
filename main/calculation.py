@@ -7,23 +7,24 @@ female_spring_clothes = {'shirt', 'jacket', 'skirt ', 'boots'}
 female_summer_clothes = {'sunglasses', 'shirt', 'skirt', 'sandals'}
 female_autumn_clothes = {'scarf', 'shirt', 'sweater', 'jacket', 'trousers', 'boots'}
 female_winter_clothes = {'scarf', 'shirt', 'sweater', 'jacket', 'trousers', 'boots'}
-сolors_combinations = {'black': ['purple', 'white', 'red'],
-                       'brown': ['blue', 'gold', 'beige'],
-                       'beige': ['olive', 'turquoise', 'petrol'],
-                       'gray': ['red', 'black', 'purple'],
-                       'white': ['gold', 'silver', 'black'],
-                       'blue': ['beige', 'silver', 'brown'],
-                       'petrol': ['red', 'pink', 'beige'],
-                       'turquoise': ['white', 'pink', 'gold'],
-                       'green': ['red', 'white', 'yellow'],
-                       'olive': ['beige', 'yellow', 'gold'],
-                       'yellow': ['black', 'white', 'gray'],
-                       'orange': ['green', 'brown', 'olive'],
-                       'red': ['gray', 'white', 'beige'],
-                       'pink': ['gray', 'black', 'white'],
-                       'purple': ['white', 'silver', 'gold'],
-                       'gold': ['white', 'beige', 'purple'],
-                       }
+# #сolors_combinations = {'black': ['purple', 'white', 'red'],
+#                        'brown': ['blue', 'gold', 'beige'],
+#                        'beige': ['olive', 'turquoise', 'petrol'],
+#                        'gray': ['red', 'black', 'purple'],
+#                        'white': ['gold', 'silver', 'black'],
+#                        'blue': ['beige', 'silver', 'brown'],
+#                        'petrol': ['red', 'pink', 'beige'],
+#                        'turquoise': ['white', 'pink', 'gold'],
+#                        'green': ['red', 'white', 'yellow'],
+#                        'olive': ['beige', 'yellow', 'gold'],
+#                        'yellow': ['black', 'white', 'gray'],
+#                        'orange': ['green', 'brown', 'olive'],
+#                        'red': ['gray', 'white', 'beige'],
+#                        'pink': ['gray', 'black', 'white'],
+#                        'purple': ['white', 'silver', 'gold'],
+#                        'gold': ['white', 'beige', 'purple'],
+#                        }
+colors_combinations = {}
 
 
 def calculate(fav_color, dis_color, weather, gender):

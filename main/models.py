@@ -9,4 +9,5 @@ class Cloth(models.Model):
 
 
 class Advice(models.Model):
+    id = models.IntegerField(primary_key=True)
     clothes = models.ManyToManyField(Cloth)
