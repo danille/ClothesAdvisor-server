@@ -5,6 +5,7 @@ from  urllib import request as url_req
 
 from .Advice import Advice
 from .Cloth import Cloth
+from .Weather import Weather
 
 male_spring_clothes_categories = ('mens-clothing-shirts', 'mens-clothing-jackets', 'mens-clothing-trousers-chinos')
 male_summer_clothes_categories = ('mens-clothing-shirts', 'mens-clothing-trousers-chinos')
@@ -117,7 +118,8 @@ color_distance = {'red': {'red': 0.0, 'brown': 48.729457210192685, 'blue': 207.0
 
 def calculate(fav_color, dis_color, weather, gender):
     advice = Advice()
-    advice.add_weather(weather)
+    __weather__ = Weather(weather)
+    advice.add_weather(__weather__)
     temp, weather_id = weather
     season = ''
     __gender__ = ''

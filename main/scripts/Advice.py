@@ -1,8 +1,7 @@
 class Advice:
     def __init__(self):
         self.clothes = []
-        self.temp = 0
-        self.conditions = 0
+        self.weather = None
 
     def add_cloth(self, cloth):
         self.clothes.append(cloth)
@@ -11,5 +10,4 @@ class Advice:
         self.clothes.append(message)
 
     def add_weather(self, weather):
-        self.temp = weather[0]
-        self.conditions = weather[1]
+        self.weather = weather
