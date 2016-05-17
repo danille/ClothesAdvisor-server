@@ -3,7 +3,6 @@ class Advice:
         self.clothes = []
         self.temp = 0
         self.conditions = 0
-        self.message = ''
 
     def add_cloth(self, cloth):
         self.clothes.append(cloth)

@@ -7,14 +7,14 @@ from .Advice import Advice
 from .Cloth import Cloth
 
 male_spring_clothes_categories = ('mens-clothing-shirts', 'mens-clothing-jackets', 'mens-clothing-trousers-chinos')
-male_summer_clothes_categories = ('mens-boots', 'mens-clothing-shirts', 'mens-clothing-trousers-chinos')
+male_summer_clothes_categories = ('mens-clothing-shirts', 'mens-clothing-trousers-chinos')
 male_autumn_clothes_categories = (
     'mens-clothing-shirts', 'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-trousers-chinos')
 male_winter_clothes_categories = (
     'mens-clothing-shirts', 'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-jackets', 'mens-clothing-jeans',)
 female_spring_clothes_categories = (
     'womens-clothing-blouses-tunics', 'womens-clothing-jackets', 'womens-clothing-jeans')
-female_summer_clothes_categories = ('womens-boots', 'summer-dresses')
+female_summer_clothes_categories = ('summer-dresses')
 female_autumn_clothes_categories = (
     'bags-accessories-womens-scarves-shawls', 'womens-clothing-blouses-tunics', 'womens-clothing-jumpers-cardigans',
     'womens-clothing-coats', 'womens-clothing-trousers-leggings')
@@ -129,13 +129,13 @@ def calculate(fav_color, dis_color, weather, gender):
 
     # Configure season filter
     if temp < 0:
-        season = 'winter'
+        __season__ = 'winter'
     elif 0 <= temp < 20 and weather_id in range(200, 622):
-        season = 'autumn'
+        __season__ = 'autumn'
     elif 0 <= temp < 20 and (weather_id == 500 or weather_id in range(700, 804)):
-        season = 'spring'
+        __season__ = 'spring'
     elif temp >= 20:
-        season = 'summer'
+        __season__ = 'summer'
 
     def define_set_of_colors_for_clothes():
         def get_distance_between_colors(color1, color2):
@@ -170,94 +170,41 @@ def calculate(fav_color, dis_color, weather, gender):
 
     __colors__ = define_set_of_colors_for_clothes()
 
+    def configure_advice_for_categories(categories, season):
+        for clothes_category in categories:
+            index = int(random.random() * len(__colors__) - 1)
+            color = __colors__[index]
+            url_for_request = 'https://api.zalando.com/articles?category={0}&season={1}&color={2}'.format(
+                clothes_category, season, color)
+            try:
+                make_zalando_request(url_for_request)
+            except error.HTTPError:
+                advice.add_message('{0} {1}'.format(color, clothes_category))
+
     if __gender__ == 'womens':
-        if season == 'winter':
-            for clothes_category in female_winter_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'winter':
+            configure_advice_for_categories(female_winter_clothes_categories, 'winter')
 
-        if season == 'spring':
-            for clothes_category in female_spring_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'spring':
+            configure_advice_for_categories(female_spring_clothes_categories, 'summer')
 
-        if season == 'summer':
-            for clothes_category in female_summer_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'summer':
+            configure_advice_for_categories(female_summer_clothes_categories, 'summer')
 
-        if season == 'autumn':
-            for clothes_category in female_autumn_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'autumn':
+            configure_advice_for_categories(female_autumn_clothes_categories, 'winter')
 
     elif __gender__ == 'mens':
-        if season == 'winter':
-            for clothes_category in male_winter_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'winter':
+            configure_advice_for_categories(male_winter_clothes_categories, 'winter')
 
-        if season == 'spring':
-            for clothes_category in male_spring_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'spring':
+            configure_advice_for_categories(male_spring_clothes_categories, 'summer')
 
-        if season == 'summer':
-            for clothes_category in male_summer_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'summer':
+            configure_advice_for_categories(male_summer_clothes_categories, 'summer')
 
-        if season == 'autumn':
-            for clothes_category in male_autumn_clothes_categories:
-                index = int(random.random() * len(__colors__) - 1)
-                color = __colors__[index]
-                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
-                    clothes_category, color)
-                try:
-                    make_zalando_request(url_for_request)
-                except error.HTTPError:
-                    advice.add_message('{0} {1}'.format(color, clothes_category))
+        if __season__ == 'autumn':
+            configure_advice_for_categories(male_autumn_clothes_categories, 'winter')
 
     return advice
