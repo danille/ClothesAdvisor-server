@@ -116,6 +116,7 @@ color_distance = {'red': {'red': 0.0, 'brown': 48.729457210192685, 'blue': 207.0
                             'yellow': 112.08536925040663, 'white': 0.0}}
 
 
+# Calculating
 def calculate(fav_color, dis_color, weather, gender):
     advice = Advice()
     __weather__ = Weather(weather)
