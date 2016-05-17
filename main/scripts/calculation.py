@@ -15,7 +15,7 @@ male_winter_clothes_categories = (
     'mens-clothing-shirts', 'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-jackets', 'mens-clothing-jeans',)
 female_spring_clothes_categories = (
     'womens-clothing-blouses-tunics', 'womens-clothing-jackets', 'womens-clothing-jeans')
-female_summer_clothes_categories = ('summer-dresses')
+female_summer_clothes_categories = ('womens-clothing-blouses-tunics', 'womens-clothing-skirts')
 female_autumn_clothes_categories = (
     'bags-accessories-womens-scarves-shawls', 'womens-clothing-blouses-tunics', 'womens-clothing-jumpers-cardigans',
     'womens-clothing-coats', 'womens-clothing-trousers-leggings')
