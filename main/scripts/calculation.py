@@ -1,14 +1,26 @@
+import json
+import random
+from urllib import error
+from  urllib import request as url_req
+
 from .Advice import Advice
 from .Cloth import Cloth
 
-# male_spring_clothes = {'shirt': '', 'jacket': '', 'trousers': '', : ''}
-# male_summer_clothes = {'sunglasses': '', 'shirt': '', 'trousers': '', : ''}
-# male_autumn_clothes = {'scarf', 'shirt', 'sweater', 'trousers', }
-# male_winter_clothes = {'scarf', 'shirt', 'sweater', 'jacket', 'trousers', }
-# female_spring_clothes = {'shirt', 'jacket', 'skirt ', }
-# female_summer_clothes = {'sunglasses', 'shirt', 'skirt', 'sandals'}
-# female_autumn_clothes = {'scarf', 'shirt', 'sweater', 'jacket', 'trousers', }
-# female_winter_clothes = {'scarf', 'shirt', 'sweater', 'jacket', 'trousers', }
+male_spring_clothes_categories = ('mens-clothing-shirts', 'mens-clothing-jackets', 'mens-clothing-trousers-chinos')
+male_summer_clothes_categories = ('mens-boots', 'mens-clothing-shirts', 'mens-clothing-trousers-chinos')
+male_autumn_clothes_categories = (
+    'mens-clothing-shirts', 'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-trousers-chinos')
+male_winter_clothes_categories = (
+    'mens-clothing-shirts', 'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-jackets', 'mens-clothing-jeans',)
+female_spring_clothes_categories = (
+    'womens-clothing-blouses-tunics', 'womens-clothing-jackets', 'womens-clothing-jeans')
+female_summer_clothes_categories = ('womens-boots', 'summer-dresses')
+female_autumn_clothes_categories = (
+    'bags-accessories-womens-scarves-shawls', 'womens-clothing-blouses-tunics', 'womens-clothing-jumpers-cardigans',
+    'womens-clothing-coats', 'womens-clothing-trousers-leggings')
+female_winter_clothes_categories = (
+    'bags-accessories-womens-scarves-shawls', 'womens-clothing-blouses-tunics', 'womens-clothing-jumpers-cardigans',
+    'womens-clothing-coats', 'womens-clothing-trousers-leggings')
 
 colors_combinations = {'black': [['red', 'grey'], ['petrol', 'white']],
                        'brown': [['grey', 'olive'], ['yellow', 'beige']],
@@ -105,6 +117,7 @@ color_distance = {'red': {'red': 0.0, 'brown': 48.729457210192685, 'blue': 207.0
 
 def calculate(fav_color, dis_color, weather, gender):
     advice = Advice()
+    advice.add_weather(weather)
     temp, weather_id = weather
     season = ''
     __gender__ = ''
@@ -118,9 +131,9 @@ def calculate(fav_color, dis_color, weather, gender):
     if temp < 0:
         season = 'winter'
     elif 0 <= temp < 20 and weather_id in range(200, 622):
-        season = 'winter'
+        season = 'autumn'
     elif 0 <= temp < 20 and (weather_id == 500 or weather_id in range(700, 804)):
-        season = 'summer'
+        season = 'spring'
     elif temp >= 20:
         season = 'summer'
 
@@ -141,22 +154,110 @@ def calculate(fav_color, dis_color, weather, gender):
                 set_of_colors_for_clothes.append(color)
         return set_of_colors_for_clothes
 
-    __colors__ = define_set_of_colors_for_clothes()
-    advice.add_cloth(Cloth(season, __gender__))
-    advice.add_cloth(Cloth(season, __gender__))
+    def make_zalando_request(url):
+        requested_bytes_from_zalando = url_req.urlopen(url).read()
+        json_string = str(requested_bytes_from_zalando, encoding='utf-8')
+        received_clothes = json.loads(json_string)['content']
+        received_cloth = received_clothes[int(random.random() * len(received_clothes) - 1)]
+        cloth_name = received_cloth['name']
+        cloth_shop_url = received_cloth['shopUrl']
+        cloth_available = received_cloth['available']
+        cloth_brand_logo = received_cloth['brand']['logoLargeUrl']
+        cloth_price = received_cloth['units'][0]['price']['formatted']
+        cloth_img = received_cloth['media']['images'][2]['smallHdUrl']
+        advice.add_cloth(Cloth(cloth_name, cloth_shop_url, cloth_available, cloth_brand_logo, cloth_price, cloth_img))
+        print('OK!')
 
-    # Configure set of female clothes
+    __colors__ = define_set_of_colors_for_clothes()
+
     if __gender__ == 'womens':
         if season == 'winter':
-            advice.top.set_category('sweater')
+            for clothes_category in female_winter_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
+
         if season == 'spring':
-            advice.top.set_category('shirt')
+            for clothes_category in female_spring_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
 
         if season == 'summer':
-            advice.top.set_category('t-shirt')
+            for clothes_category in female_summer_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
 
         if season == 'autumn':
-            advice.top.set_category('')
+            for clothes_category in female_autumn_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
 
-    def define_color_of_clothes(clothes, set_of_colors):
-        set_of_colors_fits_to_fav_color = colors_combinations['fav_color']
+    elif __gender__ == 'mens':
+        if season == 'winter':
+            for clothes_category in male_winter_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
+
+        if season == 'spring':
+            for clothes_category in male_spring_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
+
+        if season == 'summer':
+            for clothes_category in male_summer_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=summer&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
+
+        if season == 'autumn':
+            for clothes_category in male_autumn_clothes_categories:
+                index = int(random.random() * len(__colors__) - 1)
+                color = __colors__[index]
+                url_for_request = 'https://api.zalando.com/articles?category={0}&season=winter&color={1}'.format(
+                    clothes_category, color)
+                try:
+                    make_zalando_request(url_for_request)
+                except error.HTTPError:
+                    advice.add_message('{0} {1}'.format(color, clothes_category))
+
+    return advice

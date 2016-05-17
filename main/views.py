@@ -38,8 +38,10 @@ def get_advice(request):
 
     if request.method == 'GET':
         weather = get_weather(lat, lon, day_index)
-        calculate(fav_color, unfav_color, weather, gender)
-        return JsonResponse({'temp': weather[0], 'cond': weather[1]})
+        advice = calculate(fav_color, unfav_color, weather, gender)
+        json_string_advice = json.dumps(advice, default=lambda o: o.__dict__)
+        advice_json = json.loads(json_string_advice)
+        return JsonResponse(advice_json, safe=False)
 
 
 def get_weather(lat, lon, day_index):
