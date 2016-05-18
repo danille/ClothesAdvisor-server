@@ -7,18 +7,19 @@ from .Advice import Advice
 from .Cloth import Cloth
 from .Weather import Weather
 
-male_spring_clothes_categories = ('mens-clothing-shirts', 'mens-clothing-jackets', 'mens-clothing-trousers-chinos')
-male_summer_clothes_categories = ('mens-clothing-shirts', 'mens-clothing-trousers-chinos')
+male_spring_clothes_categories = ('mens-clothing-t-shirts', 'mens-clothing-jumpers-cardigans', 'mens-clothing-jeans')
+male_summer_clothes_categories = ('mens-clothing-t-shirts', 'mens-clothing-shorts', 'mens-sunglasses')
 male_autumn_clothes_categories = (
-    'mens-clothing-shirts', 'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-trousers-chinos')
+    'mens-clothing-shirts', 'mens-clothing-jumpers-cardigans', 'mens-clothing-jeans')
 male_winter_clothes_categories = (
-    'mens-clothing-shirts', 'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-jackets', 'mens-clothing-jeans',)
+    'mens-clothing-jumpers-knitted-jumpers', 'mens-clothing-jackets', 'mens-clothing-jeans',)
 female_spring_clothes_categories = (
     'womens-clothing-blouses-tunics', 'womens-clothing-jackets', 'womens-clothing-jeans')
 female_summer_clothes_categories = ('womens-clothing-blouses-tunics', 'womens-clothing-skirts')
 female_autumn_clothes_categories = (
-    'bags-accessories-womens-scarves-shawls', 'womens-clothing-blouses-tunics', 'womens-clothing-jumpers-cardigans',
-    'womens-clothing-coats', 'womens-clothing-trousers-leggings')
+    'womens-clothing-jumpers-cardigans',
+    'womens-clothing-coats',
+    'womens-clothing-trousers-leggings')  # 'bags-accessories-womens-scarves-shawls','womens-clothing-blouses-tunics',
 female_winter_clothes_categories = (
     'bags-accessories-womens-scarves-shawls', 'womens-clothing-blouses-tunics', 'womens-clothing-jumpers-cardigans',
     'womens-clothing-coats', 'womens-clothing-trousers-leggings')
@@ -161,13 +162,21 @@ def calculate(fav_color, dis_color, weather, gender):
         requested_bytes_from_zalando = url_req.urlopen(url).read()
         json_string = str(requested_bytes_from_zalando, encoding='utf-8')
         received_clothes = json.loads(json_string)['content']
+        print(received_clothes)
         received_cloth = received_clothes[random.randint(0, len(received_clothes) - 1)]
+        print(received_cloth)
         cloth_name = received_cloth['name']
+        print(cloth_name)
         cloth_shop_url = received_cloth['shopUrl']
+        print(cloth_shop_url)
         cloth_available = received_cloth['available']
+        print(cloth_available)
         cloth_brand_logo = received_cloth['brand']['logoLargeUrl']
+        print(cloth_brand_logo)
         cloth_price = received_cloth['units'][0]['price']['formatted']
+        print(cloth_price)
         cloth_img = received_cloth['media']['images'][2]['smallHdUrl']
+        print(cloth_img)
         advice.add_cloth(Cloth(cloth_name, cloth_shop_url, cloth_available, cloth_brand_logo, cloth_price, cloth_img))
         print('OK!')
 
