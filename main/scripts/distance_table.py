@@ -54,7 +54,7 @@ def make_table():
     colors = [Color('black', 0, 0.0, 0.0),
               Color('brown', 30, 100.0, 61.6),
               Color('beige', 30, 21.2, 88.6),
-              Color('grey', 0, 0.0, 66.3),
+              Color('gray', 0, 0.0, 66.3),
               Color('white', 0, 0.0, 100.0),
               Color('blue', 207, 100.0, 100.0),
               Color('petrol', 189, 100.0, 56.9),
