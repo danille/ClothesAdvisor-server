@@ -1,7 +1,7 @@
 import json
 import random
 from urllib import error
-from  urllib import request as url_req
+from urllib import request as url_req
 
 from .Advice import Advice
 from .Cloth import Cloth
@@ -19,7 +19,7 @@ female_summer_clothes_categories = ('womens-clothing-blouses-tunics', 'womens-cl
 female_autumn_clothes_categories = (
     'womens-clothing-jumpers-cardigans',
     'womens-clothing-coats',
-    'womens-clothing-trousers-leggings')  # 'bags-accessories-womens-scarves-shawls','womens-clothing-blouses-tunics',
+    'womens-clothing-trousers-leggings')
 female_winter_clothes_categories = (
     'bags-accessories-womens-scarves-shawls', 'womens-clothing-blouses-tunics', 'womens-clothing-jumpers-cardigans',
     'womens-clothing-coats', 'womens-clothing-trousers-leggings')
@@ -123,7 +123,7 @@ def calculate(fav_color, dis_color, weather, gender):
     __weather__ = Weather(weather)
     advice.add_weather(__weather__)
     temp, weather_id = weather
-    season = ''
+    __season__ = ''
     __gender__ = ''
     # Configure gender filter
     if gender == 0:
