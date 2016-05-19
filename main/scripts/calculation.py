@@ -162,8 +162,11 @@ def calculate(fav_color, dis_color, weather, gender):
         requested_bytes_from_zalando = url_req.urlopen(url).read()
         json_string = str(requested_bytes_from_zalando, encoding='utf-8')
         received_clothes = json.loads(json_string)['content']
+        while len(received_clothes) == 0:
+            print('WAITING FOR RESPONSE')
+            continue
         print(received_clothes)
-        received_cloth = received_clothes[random.randint(0, len(received_clothes) - 1)]
+        received_cloth = received_clothes[0]  # random.randint(0, len(received_clothes) - 1)
         print(received_cloth)
         cloth_name = received_cloth['name']
         print(cloth_name)
