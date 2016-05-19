@@ -125,21 +125,6 @@ def calculate(fav_color, dis_color, weather, gender):
     temp, weather_id = weather
     __season__ = ''
     __gender__ = ''
-    # Configure gender filter
-    if gender == 0:
-        __gender__ = 'womens'
-    elif gender == 1:
-        __gender__ = 'mens'
-
-    # Configure season filter
-    if temp < 0:
-        __season__ = 'winter'
-    elif 0 <= temp < 20 and weather_id in range(200, 622):
-        __season__ = 'autumn'
-    elif 0 <= temp < 20 and (weather_id == 500 or weather_id in range(700, 804)):
-        __season__ = 'spring'
-    elif temp >= 20:
-        __season__ = 'summer'
 
     def define_set_of_colors_for_clothes():
         def get_distance_between_colors(color1, color2):
@@ -189,6 +174,23 @@ def calculate(fav_color, dis_color, weather, gender):
                 make_zalando_request(url_for_request)
             except error.HTTPError:
                 advice.add_message('{0} {1}'.format(color, clothes_category))
+
+                # Configure gender filter
+
+    if gender == 0:
+        __gender__ = 'womens'
+    elif gender == 1:
+        __gender__ = 'mens'
+
+    # Configure season filter
+    if temp < 0:
+        __season__ = 'winter'
+    elif 0 <= temp < 20 and weather_id in range(200, 622):
+        __season__ = 'autumn'
+    elif 0 <= temp < 20 and (weather_id == 500 or weather_id in range(700, 804)):
+        __season__ = 'spring'
+    elif temp >= 20:
+        __season__ = 'summer'
 
     if __gender__ == 'womens':
         if __season__ == 'winter':
