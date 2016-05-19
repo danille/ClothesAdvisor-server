@@ -157,7 +157,7 @@ def calculate(fav_color, dis_color, weather, gender):
         try:
             cloth_brand_logo = received_cloth['brand']['logoLargeUrl']
         except KeyError:
-            cloth_brand_logo = 'http://s32.postimg.org/67euw00xx/brand_logo.jpg'
+            cloth_brand_logo = 'http://mih.com.au/wp-content/uploads/2014/07/brand.png'  # 'http://s32.postimg.org/67euw00xx/brand_logo.jpg'
         cloth_price = received_cloth['units'][0]['price']['formatted']
         cloth_img = received_cloth['media']['images'][2]['smallHdUrl']
         advice.add_cloth(Cloth(cloth_name, cloth_shop_url, cloth_available, cloth_brand_logo, cloth_price, cloth_img))
