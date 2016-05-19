@@ -47,7 +47,7 @@ def get_advice(request):
 def get_weather(lat, lon, day_index):
     app_key = '0c5c10c03eb74a75a2f4c1999d9ee376'  # App key required for access OpenWeatherMap API
     # Formatted URL with query parameters
-    url = 'http://api.openweathermap.org/data/2.5/forecast/daily?APPID={0}&lat={1}&lon={2}&units=metric&cnt=8'.format(
+    url = 'http://api.openweathermap.org/data/2.5/forecast/daily?APPID={0}&lat={1}&lon={2}&units=metric&cnt=16'.format(
         app_key, lat, lon)
 
     requested_url_bytes = url_req.urlopen(url).read()  # Bytes literals which contain JSON-response

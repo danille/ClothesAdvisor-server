@@ -162,26 +162,16 @@ def calculate(fav_color, dis_color, weather, gender):
         requested_bytes_from_zalando = url_req.urlopen(url).read()
         json_string = str(requested_bytes_from_zalando, encoding='utf-8')
         received_clothes = json.loads(json_string)['content']
-        while len(received_clothes) == 0:
-            print('WAITING FOR RESPONSE')
+        while len(received_clothes) == 0:  # sh*t, but works
             continue
-        print(received_clothes)
-        received_cloth = received_clothes[0]  # random.randint(0, len(received_clothes) - 1)
-        print(received_cloth)
+        received_cloth = received_clothes[random.randint(0, len(received_clothes) - 1)]
         cloth_name = received_cloth['name']
-        print(cloth_name)
         cloth_shop_url = received_cloth['shopUrl']
-        print(cloth_shop_url)
         cloth_available = received_cloth['available']
-        print(cloth_available)
         cloth_brand_logo = received_cloth['brand']['logoLargeUrl']
-        print(cloth_brand_logo)
         cloth_price = received_cloth['units'][0]['price']['formatted']
-        print(cloth_price)
         cloth_img = received_cloth['media']['images'][2]['smallHdUrl']
-        print(cloth_img)
         advice.add_cloth(Cloth(cloth_name, cloth_shop_url, cloth_available, cloth_brand_logo, cloth_price, cloth_img))
-        print('OK!')
 
     __colors__ = define_set_of_colors_for_clothes()
 
