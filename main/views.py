@@ -9,7 +9,7 @@ from .scripts.calculation import calculate
 def get_advice(request):
     lat = request.GET.get('lat')
     lon = request.GET.get('lon')
-    fav_color = request.GET.get('f_col')
+    fav_colors = (request.GET.get('fo_col'), request.GET.get('ft_col'), request.GET.get('fth_col'))
     unfav_color = request.GET.get('d_col')
     day_index = request.GET.get('d_ind')
     gender = int(request.GET.get('gnd'))
@@ -17,7 +17,7 @@ def get_advice(request):
 
     if request.method == 'GET':
         weather = get_weather(lat, lon, day_index)
-        advice = calculate(fav_color, unfav_color, weather, gender)
+        advice = calculate(fav_colors, unfav_color, weather, gender)
         json_string_advice = json.dumps(advice, default=lambda o: o.__dict__)
         advice_json = json.loads(json_string_advice)
         return JsonResponse(advice_json, safe=False)
