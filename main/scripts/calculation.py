@@ -53,7 +53,7 @@ def calculate(fav_colors, unfav_color, weather, gender):
     # Define colors using Sorensen similarity index
     def define_set_of_colors_for_clothes():
         def get_sorensen_index(colors1, colors2):
-            return len(set().intersection(*[colors1, colors2])) / (len(colors1) + len(colors2))
+            return len(set(colors1).intersection(colors2)) / (len(colors1) + len(colors2))
 
         max_index = -1
         set_to_return = ()
@@ -61,12 +61,7 @@ def calculate(fav_colors, unfav_color, weather, gender):
         for colors_set in colors_combinations:
             index_of_similarity = get_sorensen_index(colors_set, fav_colors)
 
-            # Check if some of favourite colors is in current colors set.
-            # if it is, then increase index of similarity in 1.2 times
-            for color in fav_colors:
-                if color in colors_set:
-                    index_of_similarity *= 1.2
-            # Check if unfavourite colors is in current colors set
+            # # Check if non-favourite color is in current colors set
             # If it is, then decrease index of similarity in 2 times
             if unfav_color in colors_set:
                 index_of_similarity *= 0.5
@@ -102,8 +97,6 @@ def calculate(fav_colors, unfav_color, weather, gender):
         for clothes_category in categories:
             index = int(random.random() * len(__colors__) - 1)
             color = __colors__[index]
-            # print(__colors__)
-            # print(color)
             url_for_request = 'https://api.zalando.com/articles?category={0}&season={1}&color={2}'.format(
                 clothes_category, season, color)
             try:
